@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to Claude Usage Meter</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f5f3ef; color: #1a1a1a;
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+    }
+    .wrap { max-width: 520px; width: 100%; padding: 40px 24px; }
+    .brand { display:flex; align-items:center; gap:10px; margin-bottom:48px; }
+    .brand-dot { width:10px; height:10px; border-radius:50%; background:#c0392b; }
+    .brand-name { font-size:14px; font-weight:700; letter-spacing:-0.2px; }
+    .brand-step { margin-left:auto; font-size:13px; color:#999; }
+    .step-label { font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#c0392b; margin-bottom:16px; }
+    h1 { font-size:42px; font-weight:400; line-height:1.1; letter-spacing:-1.5px; margin-bottom:20px; }
+    h1 em { font-style:italic; color:#c0392b; }
+    .body-text { font-size:17px; line-height:1.6; color:#555; margin-bottom:36px; }
+    .demo-strip { background:#1a1a1a; border-radius:10px; padding:14px 18px; margin-bottom:36px; font-family:'SF Mono','Fira Code',monospace; font-size:14px; color:#eee; }
+    .demo-pct { font-size:36px; font-weight:700; color:#fff; }
+    .demo-pct span { font-size:16px; color:#888; }
+    .demo-meta { color:#888; margin-top:4px; font-size:12px; }
+    .perms { margin-bottom:36px; }
+    .perm-row { display:flex; gap:20px; padding:12px 0; border-bottom:1px solid rgba(0,0,0,0.07); align-items:flex-start; }
+    .perm-key { font-family:'SF Mono',monospace; font-size:12px; color:#c0392b; min-width:140px; padding-top:2px; }
+    .perm-desc { font-size:14px; color:#555; line-height:1.5; }
+    .handoff-btns { display:flex; gap:12px; margin-bottom:12px; }
+    .hbtn { border:1px solid rgba(0,0,0,0.15); border-radius:6px; padding:8px 16px; font-size:14px; cursor:default; background:transparent; color:#333; }
+    .nav { display:flex; justify-content:space-between; align-items:center; margin-top:8px; }
+    .nav-back { background:none; border:none; color:#999; font-size:14px; cursor:pointer; padding:10px 0; }
+    .nav-back:hover { color:#555; }
+    .nav-next { background:#1a1a1a; color:#fff; border:none; border-radius:8px; padding:12px 28px; font-size:15px; font-weight:600; cursor:pointer; transition:background 0.15s; }
+    .nav-next:hover { background:#333; }
+    .footer { margin-top:56px; font-size:11px; color:#bbb; text-align:center; }
+    .step { display:none; }
+    .step.active { display:block; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">
+    <div class="brand-dot"></div>
+    <span class="brand-name">Claude Usage Meter</span>
+    <span class="brand-step" id="step-indicator">1 / 3</span>
+  </div>
+
+  <!-- Step 1 -->
+  <div class="step active" id="step-1">
+    <div class="step-label">Welcome</div>
+    <h1>Know what every <em>token</em> costs.</h1>
+    <p class="body-text">A quiet meter for Claude. It lives where you work — a thin strip beneath your message box that tells you what's left at a glance.</p>
+    <div class="demo-strip">
+      <div class="demo-pct" id="demo-pct">31<span>%</span></div>
+      <div class="demo-meta" id="demo-meta">session · resets in 1h 22m · ≈12 sonnet msgs</div>
+    </div>
+    <div class="nav">
+      <span></span>
+      <button class="nav-next" id="btn-1-next">Show me how →</button>
+    </div>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="step" id="step-2">
+    <div class="step-label">Step Two</div>
+    <h1>Continue any chat <em>elsewhere.</em></h1>
+    <p class="body-text">Hit a rate limit? Send the conversation — including any files Claude built — to ChatGPT, Gemini, or Grok in one click. The tab opens and your context is pasted automatically.</p>
+    <div class="handoff-btns">
+      <button class="hbtn">&#8599; ChatGPT</button>
+      <button class="hbtn">&#8599; Gemini</button>
+      <button class="hbtn">&#8599; Grok</button>
+      <button class="hbtn">&#9138;</button>
+      <button class="hbtn">&#8595;</button>
+    </div>
+    <div class="nav">
+      <button class="nav-back" id="btn-2-back">&#8592; Back</button>
+      <button class="nav-next" id="btn-2-next">Next &#8594;</button>
+    </div>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="step" id="step-3">
+    <div class="step-label">Last Step</div>
+    <h1>Sign in to <em>claude.ai.</em></h1>
+    <p class="body-text">Claude Usage Meter reads usage from your existing Claude session — same cookie your browser already has. No new accounts, no API keys, no data leaves your machine.</p>
+    <div class="perms">
+      <div class="perm-row"><span class="perm-key">storage</span><span class="perm-desc">Remembers your usage history locally.</span></div>
+      <div class="perm-row"><span class="perm-key">alarms</span><span class="perm-desc">Polls Claude's usage endpoint every 30 seconds.</span></div>
+      <div class="perm-row"><span class="perm-key">claude.ai</span><span class="perm-desc">Reads your session usage. Nothing else.</span></div>
+      <div class="perm-row"><span class="perm-key">chatgpt · gemini · grok</span><span class="perm-desc">Pastes the handoff into the destination input.</span></div>
+    </div>
+    <div class="nav">
+      <button class="nav-back" id="btn-3-back">&#8592; Back</button>
+      <button class="nav-next" id="btn-3-open">Open claude.ai &#8594;</button>
+    </div>
+  </div>
+
+  <div class="footer">no api keys &middot; no servers &middot; no claude tokens</div>
+</div>
+<script src="onboarding.js"></script>
+</body>
+</html>
